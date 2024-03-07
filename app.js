@@ -1,6 +1,6 @@
-import express from 'express'
+import express, { response } from 'express'
 import {PORT,MongoDBURL}from'./config.js'
-import { MongoClient, ServerApiVersion } from "mongodb"
+import { MongoClient, ObjectId, ServerApiVersion } from "mongodb"
 const app = express()
 
 
@@ -32,15 +32,38 @@ app.get('/',(req, res)=>{
 })
 
 app.get('/shop',(req, res)=>{
-    return res.status(202).send("<a href='/'>Home</a>")
+
+    mybooks.find().toArray()
+    .then(response=>{
+       // console.log(response)//
+        return res.status(200).send(response)
+        
+    })
+
+    //return res.status(202).send("<a href='/'>Home</a>")//
+
+
 })
 
 app.get('/shop/:id',(req, res)=>{
     const data = req.params
-    return res.status(202).send(`<a href='/'> Book: ${data.id}</a>`)
+    //return res.status(202).send(`<a href='/'> Book: ${data.id}</a>`)//
+    const filter={
+        "_id": new ObjectId(data.id)
+    }
+
+    mybooks.findOne(filter)
+    .then(response=>{
+       // console.log(response)//
+        return res.status(200).send(response)
+        
+    })
+    
+    
+    .catch(err=>console.log(err))
 })
 
-app.post('/savebook',(req, res)=>{
+app.post('/admin/savebook',(req, res)=>{
     const data = req.body
     if (!data.title)
     return res.status(400).send("No Title found")
@@ -61,4 +84,42 @@ app.post('/savebook',(req, res)=>{
 
     return res.status(201).send(JSON.stringify(data))
 
+})
+
+
+app.delete('/admin/remove/:id', (req,res)=>{
+    const data =req.params
+    const filter={
+        "_id": new ObjectId(data.id)
+    }
+
+    mybooks.deleteOne(filter)
+    .then(response=>{
+        return res.status(200).send(response)
+        
+    })
+})
+
+
+
+app.put('/admin/update/:id/',(req,res)=>{
+    const data = req.params
+    const docData = req.body
+
+    const filter ={
+        "_id": new ObjectId(data.id)
+    }
+
+    const updDoc ={
+        $set: {
+        ...docData
+     }
+    }
+    mybooks.updateOne(filter,updDoc)
+    .then(response=>{
+        res.status(200).send(response)
+
+    })
+
+    .catch(err=>console.log(err))
 })
