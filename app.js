@@ -74,17 +74,15 @@ app.post('/admin/savebook',(req, res)=>{
     if (!data.price)
     return res.status(400).send("No Price found")
 
-    mybooks.insertOne(data,(error,res)=>{
-        if(error){
-            console.log("An ERROR occured")
-            return res.sendStatus(500)
-        }
-
+    mybooks.insertOne(data)
+    .then(response=>{
+        return res.status(201).send(JSON.stringify(data))
+    })
+        .catch(err=>console.log(err))
     })
 
-    return res.status(201).send(JSON.stringify(data))
+    
 
-})
 
 
 app.delete('/admin/remove/:id', (req,res)=>{
