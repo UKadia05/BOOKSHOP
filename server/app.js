@@ -1,4 +1,4 @@
-import express, { response } from 'express'
+import express from 'express'
 import cors from 'cors'
 import {PORT,MongoDBURL}from'./config.js'
 import { MongoClient, ObjectId, ServerApiVersion } from "mongodb"
@@ -67,13 +67,13 @@ app.get('/shop/:id',(req, res)=>{
 app.post('/admin/savebook',(req, res)=>{
     const data = req.body
     if (!data.title)
-    return res.status(400).send("No Title found")
+    return res.status(400).send({message:"No Title found"})
 
     if (!data.author)
-    return res.status(400).send("No Author found")
+    return res.status(400).send({message:"No Author found"})
 
     if (!data.price)
-    return res.status(400).send("No Price found")
+    return res.status(400).send({message:"No Price found"})
 
     mybooks.insertOne(data)
     .then(response=>{
