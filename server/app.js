@@ -94,9 +94,15 @@ app.delete('/admin/remove/:id', (req,res)=>{
 
     mybooks.deleteOne(filter)
     .then(response=>{
-        return res.status(200).send(response)
+        if (response.deletedCount)
+
+        return res.status(200).send({message:"Book Deleted Successfully"})
+        else
+        return res.status(500).send({message:"Something went real Wrong"})
         
     })
+    .catch(err=>console.log(err))
+
 })
 
 
