@@ -24,7 +24,7 @@ const RemoveBook = ({ id }) => {
     
     }
     return (
-        <button id={id} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg 
+        <button id={id} className="ml-5 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg 
         hover:bg-yellow-500 
         focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             onClick={handleRemoveBook}>

@@ -115,11 +115,15 @@ app.put('/admin/update/:id/',(req,res)=>{
         "_id": new ObjectId(data.id)
     }
 
+    delete docData._id
+
     const updDoc ={
         $set: {
         ...docData
      }
     }
+
+    
     mybooks.updateOne(filter,updDoc)
     .then(response=>{
         res.status(200).send(response)
