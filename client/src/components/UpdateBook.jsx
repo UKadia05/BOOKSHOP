@@ -38,7 +38,7 @@ const UpdateBook = () => {
         // console.debug(formData)
         
         const req = new Request(
-            'http://localhost:3000/admin/update' +id, {
+            'http://localhost:3000/admin/update/' +id, {
             method: "PUT",
             headers: {
                 "content-type": "application/json"
